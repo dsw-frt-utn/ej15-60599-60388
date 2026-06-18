@@ -1,0 +1,38 @@
+using Dsw2026Ej15.Api.Middleware;
+
+namespace Dsw2026Ej15.Api
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+            // builder.Services.AddOpenApi();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddSingleton<Dsw2026Ej15.Domain.Interfaces.IPersistence, Dsw2026Ej15.Data.PersistenceInMemory>();
+
+            var app = builder.Build();
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseAuthorization();
+
+            app.MapGet("/health-check", () => Results.Ok("Healthy"));
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
+}
