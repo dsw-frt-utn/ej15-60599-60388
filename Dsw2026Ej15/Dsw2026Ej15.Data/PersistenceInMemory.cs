@@ -15,6 +15,11 @@ public class PersistenceInMemory : IPersistence
         LoadSpecialities();
     }
 
+    public List<Doctor> GetDoctors()
+    {
+        return _doctors;
+    }
+
     public Speciality? GetSpecialityById(Guid id)
     {
         return _specialities.SingleOrDefault(e => e.Id == id);
@@ -43,19 +48,4 @@ public class PersistenceInMemory : IPersistence
 
         }
     }
-
-    //public List<Doctor> GetDoctors()
-    //{
-    //    return doctors;
-    //}
-
-    //public Doctor? GetDoctorById(Guid id)
-    //{
-    //    return doctors.FirstOrDefault(d => d.Id == id);
-    //}
-
-    //public List<Speciality> GetSpecialities()
-    //{
-    //    return specialities;
-    //}
 }
