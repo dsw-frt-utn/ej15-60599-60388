@@ -6,47 +6,56 @@ namespace Dsw2026Ej15.Data;
 
 public class PersistenceInMemory : IPersistence
 {
-    private List<Doctor> doctors;
+    private List<Doctor> _doctors = [];
 
-    private List<Speciality> specialities;
+    private List<Speciality> _specialities = [];
 
     public PersistenceInMemory()
     {
-        doctors = new List<Doctor>();
-
-        specialities = LoadSpecialities();
+        LoadSpecialities();
     }
 
-    private List<Speciality> LoadSpecialities()
+    private void LoadSpecialities()
     {
-        string json = File.ReadAllText("specialities.json");
+        try
+        {
+            string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sources", "specialities.json");
+            var json = File.ReadAllText(jsonPath);
+            var specialities = JsonSerializer.Deserialize<List<Speciality>>(json,
+                new JsonSerializerOptions()
+                {
+                    PropertyNameCaseInsensitive = true
+                }) ?? [];
+            _specialities = [.. specialities.Select(s => new Speciality(s.Name, s.Description, s.Id))];
+        }
+        catch (Exception)
+        {
 
-        return JsonSerializer.Deserialize<List<Speciality>>(json)
-               ?? new List<Speciality>();
+        }
     }
 
-    public List<Doctor> GetDoctors()
-    {
-        return doctors;
-    }
+    //public List<Doctor> GetDoctors()
+    //{
+    //    return doctors;
+    //}
 
-    public Doctor? GetDoctorById(Guid id)
-    {
-        return doctors.FirstOrDefault(d => d.Id == id);
-    }
+    //public Doctor? GetDoctorById(Guid id)
+    //{
+    //    return doctors.FirstOrDefault(d => d.Id == id);
+    //}
 
-    public void AddDoctor(Doctor doctor)
-    {
-        doctors.Add(doctor);
-    }
+    //public void AddDoctor(Doctor doctor)
+    //{
+    //    doctors.Add(doctor);
+    //}
 
-    public List<Speciality> GetSpecialities()
-    {
-        return specialities;
-    }
+    //public List<Speciality> GetSpecialities()
+    //{
+    //    return specialities;
+    //}
 
-    public Speciality? GetSpecialityById(Guid id)
-    {
-        return specialities.FirstOrDefault(s => s.Id == id);
-    }
+    //public Speciality? GetSpecialityById(Guid id)
+    //{
+    //    return specialities.FirstOrDefault(s => s.Id == id);
+    //}
 }

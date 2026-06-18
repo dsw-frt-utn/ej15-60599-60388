@@ -7,10 +7,10 @@ namespace Dsw2026Ej15.Domain.Interfaces
 {
     public interface IPersistence
     {
-        List<Doctor> GetDoctors();
-        Doctor GetDoctorById(Guid Id);
-        void AddDoctor(Doctor doctor);
-        List<Speciality> GetSpecialities();
-        Speciality GetSpecialityById(Guid id);
+        //List<Doctor> GetDoctors();
+        //Doctor GetDoctorById(Guid Id);
+        //void AddDoctor(Doctor doctor);
+        //List<Speciality> GetSpecialities();
+        //Speciality GetSpecialityById(Guid id);
     }
 }

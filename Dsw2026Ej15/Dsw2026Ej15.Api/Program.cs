@@ -12,6 +12,7 @@ namespace Dsw2026Ej15.Api
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             // builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSingleton<Dsw2026Ej15.Domain.Interfaces.IPersistence, Dsw2026Ej15.Data.PersistenceInMemory>();
 
             var app = builder.Build();
 
