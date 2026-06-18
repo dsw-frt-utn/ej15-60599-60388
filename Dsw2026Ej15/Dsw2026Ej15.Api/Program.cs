@@ -28,6 +28,7 @@ namespace Dsw2026Ej15.Api
 
             app.UseAuthorization();
 
+            app.MapGet("/health-check", () => Results.Ok("Healthy"));
 
             app.MapControllers();
 
