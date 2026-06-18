@@ -1,3 +1,5 @@
+using Dsw2026Ej15.Api.Middleware;
+
 namespace Dsw2026Ej15.Api
 {
     public class Program
@@ -15,6 +17,7 @@ namespace Dsw2026Ej15.Api
             builder.Services.AddSingleton<Dsw2026Ej15.Domain.Interfaces.IPersistence, Dsw2026Ej15.Data.PersistenceInMemory>();
 
             var app = builder.Build();
+            app.UseMiddleware<ExceptionMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -2,6 +2,7 @@
 using Dsw2026Ej15.Domain.Entities;
 using Dsw2026Ej15.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Dsw2026Ej15.Domain.Exceptions;
 
 namespace Dsw2026Ej15.Api.Controllers
 {
@@ -18,7 +19,9 @@ namespace Dsw2026Ej15.Api.Controllers
         [HttpPost("doctors")]
         public async Task<IActionResult> CreateDoctor(DoctorModel.Request request)
         {
-            if(string.IsNullOrWhiteSpace(request.Name) || 
+            //throw new Exception("Error de prueba");
+
+            if (string.IsNullOrWhiteSpace(request.Name) || 
                 string.IsNullOrWhiteSpace(request.LicenseNumber))
             {
                 return BadRequest("Nombre y Matrícula son obligatorios.");
@@ -27,7 +30,7 @@ namespace Dsw2026Ej15.Api.Controllers
             var speciality = _persistence.GetSpecialityById(request.SpecialityId);
             if (speciality is null)
             {
-                return BadRequest("Especialidad no encontrada.");
+                throw new ValidationException("Especialidad no encontrada.");
             }
 
             var doctor = new Doctor(request.Name, request.LicenseNumber, speciality);
@@ -61,7 +64,7 @@ namespace Dsw2026Ej15.Api.Controllers
 
             if (doctor == null || !doctor.IsActive)
             {
-                return NotFound("Médico no encontrado.");
+                throw new ValidationException("Médico no encontrado.");
             }
 
             return Ok(new
@@ -80,7 +83,7 @@ namespace Dsw2026Ej15.Api.Controllers
 
             if (doctor == null || !doctor.IsActive)
             {
-                return NotFound("Médico no encontrado.");
+                throw new ValidationException("Médico no encontrado.");
             }
 
             doctor.Deactivate();
