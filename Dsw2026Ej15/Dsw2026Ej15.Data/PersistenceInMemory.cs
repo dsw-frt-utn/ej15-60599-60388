@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Dsw2026Ej15.Domain.Entities;
 using Dsw2026Ej15.Domain.Interfaces;
+using Dsw2026Ej15.Data.Dtos;
 
 namespace Dsw2026Ej15.Data;
 
@@ -13,6 +14,11 @@ public class PersistenceInMemory : IPersistence
     public PersistenceInMemory()
     {
         LoadSpecialities();
+    }
+
+    public Doctor? GetDoctorById(Guid id)
+    {
+        return _doctors.FirstOrDefault(d => d.Id == id);
     }
 
     public List<Doctor> GetDoctors()
@@ -36,7 +42,7 @@ public class PersistenceInMemory : IPersistence
         {
             string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sources", "specialities.json");
             var json = File.ReadAllText(jsonPath);
-            var specialities = JsonSerializer.Deserialize<List<Speciality>>(json,
+            var specialities = JsonSerializer.Deserialize<List<SpecialityDto>>(json,
                 new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true

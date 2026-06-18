@@ -14,10 +14,12 @@ namespace Dsw2026Ej15.Api.Controllers
             _persistence = persistence;
         }
 
+        // Desarrollo del Primer EndPoint: POST /doctors
         [HttpPost("doctors")]
         public async Task<IActionResult> CreateDoctor(DoctorModel.Request request)
         {
-            if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.LicenseNumber))
+            if(string.IsNullOrWhiteSpace(request.Name) || 
+                string.IsNullOrWhiteSpace(request.LicenseNumber))
             {
                 return BadRequest("Nombre y Matrícula son obligatorios.");
             }
@@ -33,6 +35,8 @@ namespace Dsw2026Ej15.Api.Controllers
 
             return Created();
         }
+
+        // Desarrollo del Segundo EndPoint: GET /doctors
         [HttpGet("doctors")]
         public async Task<IActionResult> GetDoctors()
         {
@@ -47,6 +51,25 @@ namespace Dsw2026Ej15.Api.Controllers
                 });
 
             return Ok(doctors);
+        }
+
+        // Desarrollo del Tercer EndPoint: GET /doctors/{id}
+        [HttpGet("doctors/{id}")]
+        public async Task<IActionResult> GetDoctor(Guid id)
+        {
+            var doctor = _persistence.GetDoctorById(id);
+
+            if (doctor == null || !doctor.IsActive)
+            {
+                return NotFound("Médico no encontrado.");
+            }
+
+            return Ok(new
+            {
+                doctor.Name,
+                doctor.LicenseNumber,
+                SpecialityName = doctor.Speciality?.Name
+            });
         }
     }
 }
