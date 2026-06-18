@@ -71,5 +71,21 @@ namespace Dsw2026Ej15.Api.Controllers
                 SpecialityName = doctor.Speciality?.Name
             });
         }
+
+        //Desarrollo del Cuarto EndPoint: DELETE /doctors/{id}
+        [HttpDelete("doctors/{id}")]
+        public async Task<IActionResult> DeleteDoctor(Guid id)
+        {
+            var doctor = _persistence.GetDoctorById(id);
+
+            if (doctor == null || !doctor.IsActive)
+            {
+                return NotFound("Médico no encontrado.");
+            }
+
+            doctor.Deactivate();
+
+            return NoContent();
+        }
     }
 }

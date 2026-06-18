@@ -9,7 +9,7 @@ namespace Dsw2026Ej15.Domain.Interfaces
     {
         List<Doctor> GetDoctors();
         Doctor? GetDoctorById(Guid id);
-        //List<Speciality> GetSpecialities();
+        
         Speciality? GetSpecialityById(Guid id);
         void SaveDoctor(Doctor doctor);
     }
