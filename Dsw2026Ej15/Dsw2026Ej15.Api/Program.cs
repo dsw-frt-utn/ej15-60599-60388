@@ -1,4 +1,6 @@
 using Dsw2026Ej15.Api.Middleware;
+using Dsw2026Ej15.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dsw2026Ej15.Api
 {
@@ -15,6 +17,9 @@ namespace Dsw2026Ej15.Api
             // builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSingleton<Dsw2026Ej15.Domain.Interfaces.IPersistence, Dsw2026Ej15.Data.PersistenceInMemory>();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+     options.UseSqlite(
+         builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
             app.UseMiddleware<ExceptionMiddleware>();
@@ -33,6 +38,7 @@ namespace Dsw2026Ej15.Api
             app.MapControllers();
 
             app.Run();
+
         }
     }
 }
