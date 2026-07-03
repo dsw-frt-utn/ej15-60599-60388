@@ -12,6 +12,10 @@ public class Doctor : BaseEntity
 
     public Speciality? Speciality { get; private set; }
 
+    private Doctor()
+    {
+    }
+
     public Doctor(string name, string licenseNumber, Speciality speciality, Guid? id = null): base (id)
     {
         Name = name;
